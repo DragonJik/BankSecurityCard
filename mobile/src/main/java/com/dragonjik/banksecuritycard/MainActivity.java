@@ -3,7 +3,6 @@ package com.dragonjik.banksecuritycard;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.dragonjik.banksecuritycard.util.Log;
+import com.dragonjik.banksecuritycard.view.fragment.CardAddDialogFragment;
 import com.dragonjik.banksecuritycard.view.fragment.MainFragment;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -33,8 +34,28 @@ public class MainActivity extends RxAppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                        */
+
+                Log.d("onClick");
+                CardAddDialogFragment fragment = new CardAddDialogFragment();
+
+                fragment.setOnListener(new CardAddDialogFragment.OnAddDialogListener(){
+
+                    @Override
+                    public void onDismiss() {
+                        fab.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onCreate() {
+                        fab.setVisibility(View.GONE);
+                    }
+                });
+                fragment.show(getSupportFragmentManager(),"add_dialog");
+
             }
         });
 
@@ -52,6 +73,12 @@ public class MainActivity extends RxAppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     @Override

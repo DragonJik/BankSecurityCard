@@ -9,6 +9,7 @@ import com.jakewharton.rxrelay.PublishRelay;
 import io.realm.RealmResults;
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subjects.BehaviorSubject;
 
@@ -24,10 +25,17 @@ public class MainViewModel {
 
     private final BehaviorSubject<RealmResults<Card>> mCardListResultSubject = BehaviorSubject.create();
 
+    public final PublishRelay<Card> setCardListResultCommand = PublishRelay.create();
+
+    private final BehaviorSubject<Card> mTextSubject = BehaviorSubject.create();
 
     @RxLogObservable
     public final Observable<RealmResults<Card>> getCardList(){
         return mCardListResultSubject.asObservable();
+    }
+
+    public final Observable<Card> data(){
+        return mTextSubject.asObservable();
     }
 
     public MainViewModel(){
@@ -60,6 +68,13 @@ public class MainViewModel {
             public void onNext(RealmResults<Card> results) {
                 Log.d("onNext"+results.size());
                 mCardListResultSubject.onNext(results);
+            }
+        });
+
+        setCardListResultCommand.retry().subscribe(new Action1<Card>() {
+            @Override
+            public void call(Card card) {
+                mTextSubject.onNext(card);
             }
         });
     }
