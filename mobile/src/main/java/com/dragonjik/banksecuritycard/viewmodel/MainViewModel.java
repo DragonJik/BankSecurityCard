@@ -3,7 +3,6 @@ package com.dragonjik.banksecuritycard.viewmodel;
 import com.dragonjik.banksecuritycard.controller.MainController;
 import com.dragonjik.banksecuritycard.model.Card;
 import com.dragonjik.banksecuritycard.util.Log;
-import com.fernandocejas.frodo.annotation.RxLogObservable;
 import com.jakewharton.rxrelay.PublishRelay;
 
 import io.realm.RealmResults;
@@ -29,7 +28,6 @@ public class MainViewModel {
 
     private final BehaviorSubject<Card> mTextSubject = BehaviorSubject.create();
 
-    @RxLogObservable
     public final Observable<RealmResults<Card>> getCardList(){
         return mCardListResultSubject.asObservable();
     }

@@ -8,9 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.dragonjik.banksecuritycard.R;
 import com.dragonjik.banksecuritycard.util.Log;
+import com.dragonjik.banksecuritycard.viewmodel.CardAddViewModel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +25,14 @@ public class CardAddDialogFragment extends DialogFragment {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     private OnAddDialogListener listener;
+
+    @Bind(R.id.ll_card_number)
+    LinearLayout ll_cart_number;
+
+    private CardAddViewModel cardAddViewModel;
+
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +49,20 @@ public class CardAddDialogFragment extends DialogFragment {
 
         //toolbar = (Toolbar) v.findViewById(R.id.toolbar);
 
+        cardAddViewModel = new CardAddViewModel(getActivity());
+        cardAddViewModel.makeCardNumberCommand.call(ll_cart_number);
 
         return  v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTupBuild();
+    }
+
+    private void setTupBuild() {
+
     }
 
     @Override
